@@ -8,7 +8,7 @@ const Meals = db.define("meals", {
         allowNull: false
     },
     name: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     price: {

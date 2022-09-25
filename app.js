@@ -17,6 +17,15 @@ app.use('/api/v1/restaurants', restaurantsRoute );
 app.use('/api/v1/meals', ordersRoute );
 app.use('/api/v1/orders', mealsRoute );
 
+//Global Error Handler
+app.use((error, req, res, next) => {
+	res.status(400).json({
+		status: 'error',
+		message: error.message,
+		error,
+	});
+});
+
 // Catch non-existing endpoints
 app.all('*', (req, res) => {
 	res.status(404).json({

@@ -5,8 +5,14 @@ const dotenv = require('dotenv');
 
 dotenv.config({ path: './config.env' });
 
-const protectSession = async (req, res, next) => {
-    try {
+const catchAsync = fn => {
+    return (req, res, next) => {
+        fn(req, res, next).catch(err => next(err));
+    };
+};
+
+const protectSession = catchAsync(async (req, res, next) => {
+
         let token;
 
         if (
@@ -39,10 +45,7 @@ const protectSession = async (req, res, next) => {
         req.sessionUser = user;
 
         next();
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
 const protectUsersAccount = (req, res, next) => {
     const { sessionUser, user } = req;
