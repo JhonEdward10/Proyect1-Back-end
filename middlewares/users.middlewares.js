@@ -1,8 +1,10 @@
 //Models
 const { Users } = require('../models/users.models');
 
-const userExists = async (req, res, next) => {
-    try {
+//utils
+const { catchAsync } = require('../utils/catchAsync.util');
+
+const userExists = catchAsync(async (req, res, next) => {
         const { id } = req.params;
 
         const user = await Users.findOne({
@@ -20,10 +22,6 @@ const userExists = async (req, res, next) => {
 
         req.user = user;
         next();
-
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
 module.exports = { userExists }; 

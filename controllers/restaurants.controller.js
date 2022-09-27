@@ -1,7 +1,10 @@
 const { Restaurants } = require('../models/restaurants.models');
 const { Reviews } = require('../models/reviews.models');
 
-const createRestaurants = async (req, res) => {
+//Utils
+const { catchAsync } = require('../utils/catchAsync.util');
+
+const createRestaurants = async (req, res, next) => {
     const { name, address, rating } = req.body;
 
     const restaurant = await Restaurants.create({
@@ -17,7 +20,7 @@ const createRestaurants = async (req, res) => {
     });
 };
 
-const getRestaurants = async (req, res) => {
+const getRestaurants = async (req, res, next) => {
     try {
         const restaurants = await Restaurants.findAll({
             where: { status: 'active' },
@@ -34,7 +37,7 @@ const getRestaurants = async (req, res) => {
     }
 };
 
-const getRestaurantsId = async (req, res) => {
+const getRestaurantsId = async (req, res, next) => {
     try {
         const { restaurant } = req;
 
@@ -48,7 +51,7 @@ const getRestaurantsId = async (req, res) => {
     }
 };
 
-const updateRestaurants = async (req, res) => {
+const updateRestaurants = async (req, res, next) => {
     try {
         const { name, address } = req.body;
         const { restaurant } = req;
@@ -65,7 +68,7 @@ const updateRestaurants = async (req, res) => {
     }
 };
 
-const deleteRestaurant = async (req, res) => {
+const deleteRestaurant = async (req, res, next) => {
     try {
         const { restaurant } = req;
 
@@ -80,7 +83,7 @@ const deleteRestaurant = async (req, res) => {
     }
 };
 
-const createRestaurantReviews = async (req, res) => {
+const createRestaurantReviews = async (req, res, next) => {
     try {
         const { restaurantId } = req.params;
         const { comment, rating } = req.body;
@@ -105,7 +108,7 @@ const createRestaurantReviews = async (req, res) => {
     }
 };
 
-const updateRestaurantReviews = async (req, res) => {
+const updateRestaurantReviews = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { comment, rating } = req.body;
@@ -123,7 +126,7 @@ const updateRestaurantReviews = async (req, res) => {
     }
 };
 
-const deleteRestaurantReviews = async (req, res) => {
+const deleteRestaurantReviews = async (req, res, next) => {
     try {
         const { review } = req;
 

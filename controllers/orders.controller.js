@@ -2,6 +2,9 @@ const { Orders } = require('../models/orders.models');
 const { Restaurants } = require('../models/restaurants.models');
 const { Meals } = require('../models/meals.models');
 
+//Utils
+const { catchAsync } = require('../utils/catchAsync.util');
+
 const createOrders = async (req, res) => {
     try {
         const { quantity, mealId } = req.body;

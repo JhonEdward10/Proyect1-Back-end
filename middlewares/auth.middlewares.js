@@ -3,13 +3,9 @@ const jwt = require('jsonwebtoken');
 
 const dotenv = require('dotenv');
 
-dotenv.config({ path: './config.env' });
+const { catchAsync } = require('../utils/catchAsync.util');
 
-const catchAsync = fn => {
-    return (req, res, next) => {
-        fn(req, res, next).catch(err => next(err));
-    };
-};
+dotenv.config({ path: './config.env' });
 
 const protectSession = catchAsync(async (req, res, next) => {
 

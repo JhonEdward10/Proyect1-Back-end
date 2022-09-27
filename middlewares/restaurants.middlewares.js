@@ -1,9 +1,10 @@
 //Models
 const { Restaurants } = require('../models/restaurants.models');
 const { Reviews } = require('../models/reviews.models');
+//Utils
+const { catchAsync } = require('../utils/catchAsync.util');
 
-const restaurantsExists = async (req, res, next) => {
-    try {
+const restaurantsExists = catchAsync(async (req, res, next) => {
         const { id } = req.params;
 
         const restaurant = await Restaurants.findOne({
@@ -22,10 +23,7 @@ const restaurantsExists = async (req, res, next) => {
         req.restaurant = restaurant;
         next();
         
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
 const userIsAdmin = (req, res, next) => {
     try {
@@ -44,8 +42,7 @@ const userIsAdmin = (req, res, next) => {
     }
 };
 
-const reviewExist = async (req, res, next) => {
-    try {
+const reviewExist = catchAsync (async (req, res, next) => {
         const { id } = req.params;
         const validId = Number(id);
         const review = await Reviews.findOne({
@@ -62,10 +59,7 @@ const reviewExist = async (req, res, next) => {
         req.review = review;
 
         next();
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
 const reviewOwner = (req, res, next) => {
     try {

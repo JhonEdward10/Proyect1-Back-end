@@ -1,8 +1,9 @@
 const { Meals } = require('../models/meals.models');
 const { Restaurants } = require('../models/restaurants.models');
+//Utils
+const { catchAsync } = require('../utils/catchAsync.util');
 
-const mealExist = async (req, res, next) => {
-    try {
+const mealExist = catchAsync(async (req, res, next) => {
         const { id } = req.params;
 
         const meal = await Meals.findOne({
@@ -20,9 +21,6 @@ const mealExist = async (req, res, next) => {
         req.meal = meal;
 
         next();
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
 module.exports = { mealExist };

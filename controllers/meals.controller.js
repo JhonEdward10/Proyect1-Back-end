@@ -1,6 +1,9 @@
 const { Meals } = require('../models/meals.models');
 const { Restaurants } = require('../models/restaurants.models');
 
+//Utils
+const { catchAsync } = require('../utils/catchAsync.util');
+
 const createMeal = async (req, res) => {
     try {
         const { name, price } = req.body;

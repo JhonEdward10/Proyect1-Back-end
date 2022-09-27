@@ -2,6 +2,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
+//Utils
+const { catchAsync } = require('../utils/catchAsync.util');
+
 //Models
 const { Users } = require('../models/users.models');
 const { Orders } = require('../models/orders.models');
@@ -10,7 +13,7 @@ const { Restaurants } = require('../models/restaurants.models');
 
 dotenv.config({ path: './config.env' });
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
     try {
         const { name, email, password } = req.body;
 
@@ -39,7 +42,7 @@ const createUser = async (req, res) => {
 
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
         //Get email and password from req.body
         const { email, password } = req.body;
@@ -78,7 +81,7 @@ const login = async (req, res) => {
     }
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
     try {
         const { name, email } = req.body;
         const { user } = req;
@@ -96,7 +99,7 @@ const updateUser = async (req, res) => {
 
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
     try {
         const { user } = req;
         
@@ -112,7 +115,7 @@ const deleteUser = async (req, res) => {
     }
 };
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
     try {
         const { sessionUser } = req;
 
@@ -142,7 +145,7 @@ const getAllUsers = async (req, res) => {
 
 };
 
-const getUserOrders = async (req, res) => {
+const getUserOrders = async (req, res, next) => {
     try {
     const { sessionUser } = req;
     const { id } = req.params;

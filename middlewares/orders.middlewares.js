@@ -1,8 +1,9 @@
 const { Orders } = require('../models/orders.models');
 const { Meals } = require('../models/meals.models');
+//Utils
+const { catchAsync } = require('../utils/catchAsync.util');
 
-const mealExist = async (req, res, next) => {
-    try {
+const mealExist = catchAsync(async (req, res, next) => {
         const { mealId } = req.body;
 
         const meal = await Meals.findOne({
@@ -19,13 +20,9 @@ const mealExist = async (req, res, next) => {
         req.meal = meal;
 
         next();
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
-const orderExist = async (req, res, next) => {
-    try {
+const orderExist = catchAsync(async (req, res, next) => {
         const { id } = req.params;
 
         const order = await Orders.findOne({ where: { id, status: 'active' } });
@@ -40,9 +37,6 @@ const orderExist = async (req, res, next) => {
         req.order = order;
 
         next();
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
 module.exports = { mealExist, orderExist };
