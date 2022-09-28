@@ -6,8 +6,8 @@ const { Meals } = require('../models/meals.models');
 const { catchAsync } = require('../utils/catchAsync.util');
 
 const createOrders = catchAsync( async (req, res, next) => {
-        const { quantity, mealId } = req.body;
-        const { sessionUser, meals } = req;
+        const { quantity } = req.body;
+        const { sessionUser, meal } = req;
 
         const activeOrder = await Orders.findAll({
             where: { userId: sessionUser.id, status: 'active' }
@@ -20,11 +20,11 @@ const createOrders = catchAsync( async (req, res, next) => {
             });
         };
 
-        const totalPrice = meals.price * quantity;
+        const totalPrice = meal.price * quantity;
         const orders = await Orders.create({
             totalPrice,
             quantity,
-            mealId: meals.id,
+            mealId: meal.id,
             userId: sessionUser.id
         });
         

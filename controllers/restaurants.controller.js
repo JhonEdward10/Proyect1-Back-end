@@ -77,7 +77,7 @@ const createRestaurantReviews = catchAsync( async (req, res, next) => {
             rating
         });
 
-        res.stauts(201).json({
+        res.status(201).json({
             status: 'success',
             data: { review }
         });

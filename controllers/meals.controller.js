@@ -6,18 +6,18 @@ const { catchAsync } = require('../utils/catchAsync.util');
 
 const createMeal = catchAsync( async (req, res, next) => {
         const { name, price } = req.body;
-        const { restaurant } = req;
+        const { id } = req.params;
 
-        const meals = await Meals.create({
+        const meal = await Meals.create({
             name,
-            price, 
-            restaurant: restaurant.id
+            price,
+            restaurantId: id
         });
 
         //201 --> Success and a resource has been created
         res.status(201).json({
             status: 'success',
-            data: { meals }
+            data: { meal }
         });
 });
 
@@ -33,35 +33,35 @@ const getAllMeals = catchAsync( async (req, res, next) => {
 });
 
 const getMealsId = catchAsync( async (req, res, next) => {
-        const { meals } = req;
+        const { meal } = req;
 
         res.status(200).json({  
             status: 'success',
             data: {
-                meals,
+                meal,
             }
         });
 });
 
 const updateMeals = catchAsync( async (req, res, next) => {
         const { name, price } = req.body;
-        const { meals } = req;
+        const { meal } = req;
 
-        await meals.update({
+        await meal.update({
             name, 
             price
         });
 
         res.status(200).json({
             status: 'success',
-            data: { meals }
+            data: { meal }
         }); 
 });
 
 const deletedMeals = catchAsync( async (req, res, next) => {
-        const { meals } = req;
+        const { meal } = req;
         
-        await meals.update({ status: 'disabled' });
+        await meal.update({ status: 'disabled' });
 
         res.status(204).json({
             status: 'success'

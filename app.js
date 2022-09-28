@@ -14,8 +14,8 @@ const { mealsRoute } = require('./routes/meals.route');
 
 app.use('/api/v1/users', usersRoute );
 app.use('/api/v1/restaurants', restaurantsRoute );
-app.use('/api/v1/meals', ordersRoute );
-app.use('/api/v1/orders', mealsRoute );
+app.use('/api/v1/meals', mealsRoute );
+app.use('/api/v1/orders', ordersRoute );
 
 //Global Error Handler
 app.use((error, req, res, next) => {
