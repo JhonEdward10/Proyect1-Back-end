@@ -5,8 +5,7 @@ const { Meals } = require('../models/meals.models');
 //Utils
 const { catchAsync } = require('../utils/catchAsync.util');
 
-const createOrders = async (req, res) => {
-    try {
+const createOrders = catchAsync( async (req, res, next) => {
         const { quantity, mealId } = req.body;
         const { sessionUser, meals } = req;
 
@@ -35,14 +34,9 @@ const createOrders = async (req, res) => {
                 orders
             }
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const getAllOrders = async (req, res) => {
-    try {
+const getAllOrders = catchAsync( async (req, res, next) => {
         const orders = await Orders.findAll({
             include: {
                 model: Meals,
@@ -54,14 +48,9 @@ const getAllOrders = async (req, res) => {
             status: 'success',
             data: { orders }
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const updateOrders = async (req, res) => {
-    try {
+const updateOrders = catchAsync( async (req, res, next) => {
         const { orders } = req;
 
         orders.update({ status: 'completed' });
@@ -70,23 +59,14 @@ const updateOrders = async (req, res) => {
             status: 'success',
             data: { orders }
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const cancellOrders = async (req, res) => {
-    try {
+const cancellOrders = catchAsync( async (req, res, next) => {
         const { orders } = req;
 
         orders.update({ status: 'cancelled' });
 
         res.status(204).json({ status: 'success' });
-        
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
 module.exports = { createOrders, getAllOrders, updateOrders, cancellOrders };

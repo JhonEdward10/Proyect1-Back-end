@@ -13,8 +13,7 @@ const { Restaurants } = require('../models/restaurants.models');
 
 dotenv.config({ path: './config.env' });
 
-const createUser = async (req, res, next) => {
-    try {
+const createUser = catchAsync( async (req, res, next) => {
         const { name, email, password } = req.body;
 
         // Encrypt the password
@@ -34,16 +33,10 @@ const createUser = async (req, res, next) => {
         res.status(201).json({
             status: 'sucess',
             data: { newUser }
-        });
-        
-    } catch (error) {
-        console.log(error);
-    }
+        });    
+});
 
-};
-
-const login = async (req, res, next) => {
-    try {
+const login = catchAsync( async (req, res, next) => {
         //Get email and password from req.body
         const { email, password } = req.body;
 
@@ -75,14 +68,9 @@ const login = async (req, res, next) => {
             status: 'success',
             data: { user, token }
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const updateUser = async (req, res, next) => {
-    try {
+const updateUser = catchAsync( async (req, res, next) => {
         const { name, email } = req.body;
         const { user } = req;
 
@@ -93,14 +81,9 @@ const updateUser = async (req, res, next) => {
             data: { user }
         });
         
-    } catch (error) {
-        console.log(error);
-    }
+});
 
-};
-
-const deleteUser = async (req, res, next) => {
-    try {
+const deleteUser = catchAsync( async (req, res, next) => {
         const { user } = req;
         
         //Soft delete
@@ -109,14 +92,9 @@ const deleteUser = async (req, res, next) => {
         res.status(204).json({
             status: 'success'
         });
-        
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
-const getAllUsers = async (req, res, next) => {
-    try {
+const getAllUsers = catchAsync( async (req, res, next) => {
         const { sessionUser } = req;
 
         const orders = await Orders.findAll({
@@ -138,15 +116,9 @@ const getAllUsers = async (req, res, next) => {
             status: 'success',
             data: { orders }
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-
-};
-
-const getUserOrders = async (req, res, next) => {
-    try {
+const getUserOrders = catchAsync( async (req, res, next) => {
     const { sessionUser } = req;
     const { id } = req.params;
 
@@ -170,9 +142,6 @@ const getUserOrders = async (req, res, next) => {
         data: { order }
     });
         
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
 module.exports = { createUser, login, updateUser, deleteUser, getAllUsers, getUserOrders };

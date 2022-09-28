@@ -4,8 +4,7 @@ const { Restaurants } = require('../models/restaurants.models');
 //Utils
 const { catchAsync } = require('../utils/catchAsync.util');
 
-const createMeal = async (req, res) => {
-    try {
+const createMeal = catchAsync( async (req, res, next) => {
         const { name, price } = req.body;
         const { restaurant } = req;
 
@@ -20,14 +19,9 @@ const createMeal = async (req, res) => {
             status: 'success',
             data: { meals }
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const getAllMeals = async (req, res) => {
-    try {
+const getAllMeals = catchAsync( async (req, res, next) => {
         const meals = await Meals.findAll({
             where: { status: 'active' },
             include: Restaurants
@@ -36,13 +30,9 @@ const getAllMeals = async (req, res) => {
             status: 'success',
             data: { meals }
         });
-    } catch (error) {
-       console.log(error); 
-    }
-};
+});
 
-const getMealsId = async (req, res) => {
-    try {
+const getMealsId = catchAsync( async (req, res, next) => {
         const { meals } = req;
 
         res.status(200).json({  
@@ -51,13 +41,9 @@ const getMealsId = async (req, res) => {
                 meals,
             }
         });
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
-const updateMeals = async (req, res) => {
-    try {
+const updateMeals = catchAsync( async (req, res, next) => {
         const { name, price } = req.body;
         const { meals } = req;
 
@@ -69,16 +55,10 @@ const updateMeals = async (req, res) => {
         res.status(200).json({
             status: 'success',
             data: { meals }
-        });
-        
+        }); 
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const deletedMeals = async (req, res) => {
-    try {
+const deletedMeals = catchAsync( async (req, res, next) => {
         const { meals } = req;
         
         await meals.update({ status: 'disabled' });
@@ -86,10 +66,6 @@ const deletedMeals = async (req, res) => {
         res.status(204).json({
             status: 'success'
         });
-
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
 module.exports = { createMeal, getAllMeals, getMealsId, updateMeals, deletedMeals };

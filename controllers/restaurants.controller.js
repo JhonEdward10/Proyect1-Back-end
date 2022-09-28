@@ -4,7 +4,7 @@ const { Reviews } = require('../models/reviews.models');
 //Utils
 const { catchAsync } = require('../utils/catchAsync.util');
 
-const createRestaurants = async (req, res, next) => {
+const createRestaurants = catchAsync( async (req, res, next) => {
     const { name, address, rating } = req.body;
 
     const restaurant = await Restaurants.create({
@@ -18,10 +18,9 @@ const createRestaurants = async (req, res, next) => {
         status: 'success',
         data: { restaurant }
     });
-};
+});
 
-const getRestaurants = async (req, res, next) => {
-    try {
+const getRestaurants = catchAsync( async (req, res, next) => {
         const restaurants = await Restaurants.findAll({
             where: { status: 'active' },
             include: Reviews
@@ -31,28 +30,18 @@ const getRestaurants = async (req, res, next) => {
             status: 'success',
             data: { restaurants }
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const getRestaurantsId = async (req, res, next) => {
-    try {
+const getRestaurantsId = catchAsync( async (req, res, next) => {
         const { restaurant } = req;
 
         res.status(200).json({
             status: 'success',
             data: { restaurant }
         });
-        
-    } catch (error) {
-        console.log(error);
-    }
-};
+});
 
-const updateRestaurants = async (req, res, next) => {
-    try {
+const updateRestaurants = catchAsync( async (req, res, next) => {
         const { name, address } = req.body;
         const { restaurant } = req;
     
@@ -62,14 +51,9 @@ const updateRestaurants = async (req, res, next) => {
             status: 'success',
             data: { restaurant }
         });
-    
-    } catch (error) {
-        console.log(error);    
-    }
-};
+});
 
-const deleteRestaurant = async (req, res, next) => {
-    try {
+const deleteRestaurant = catchAsync( async (req, res, next) => {
         const { restaurant } = req;
 
         await restaurant. update({ status: 'disabled' });
@@ -77,14 +61,9 @@ const deleteRestaurant = async (req, res, next) => {
         res.status(204).json({
             status: 'success'
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const createRestaurantReviews = async (req, res, next) => {
-    try {
+const createRestaurantReviews = catchAsync( async (req, res, next) => {
         const { restaurantId } = req.params;
         const { comment, rating } = req.body;
         const { sessionUser } = req;
@@ -102,14 +81,9 @@ const createRestaurantReviews = async (req, res, next) => {
             status: 'success',
             data: { review }
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const updateRestaurantReviews = async (req, res, next) => {
-    try {
+const updateRestaurantReviews = catchAsync( async (req, res, next) => {
         const { id } = req.params;
         const { comment, rating } = req.body;
         const { review } = req;
@@ -120,14 +94,9 @@ const updateRestaurantReviews = async (req, res, next) => {
             status: 'succcess',
             data: { review }
         });
+});
 
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const deleteRestaurantReviews = async (req, res, next) => {
-    try {
+const deleteRestaurantReviews = catchAsync( async (req, res, next) => {
         const { review } = req;
 
         await review.update({ status: 'deleted' });
@@ -135,10 +104,6 @@ const deleteRestaurantReviews = async (req, res, next) => {
         res.status(204).json({
             status: 'success',
         });
-
-    } catch (error) {
-        
-    }
-};
+});
 
 module.exports = { createRestaurants, getRestaurants, getRestaurantsId, updateRestaurants, deleteRestaurant, createRestaurantReviews, updateRestaurantReviews, deleteRestaurantReviews };
